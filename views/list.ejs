@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Siswa</title>
+  <script src="https://kit.fontawesome.com/b388c365ce.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+  <style>
+    h1,
+    h2 {
+      font-family: arial, sans-serif;
+      margin-left: 24px;
+    }
+
+    label {
+      padding: 4px 4px 4px 4px;
+
+    }
+
+    input {
+      font-family: arial, sans-serif;
+      width: 95%;
+      padding: 9px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      resize: vertical;
+    }
+
+    input[type=checkbox] {
+
+      margin-top: 10px;
+      width: 15%;
+      padding: 3px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      resize: vertical;
+    }
+
+    select {
+      background-color: white;
+      border: 1px solid #ccc;
+      width: 97%;
+      border-radius: 4px;
+      display: inline-block;
+      font-family: arial, sans-serif;
+      line-height: 25px;
+      padding: 7px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      resize: vertical;
+    }
+
+    select.arrows {
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA3klEQVRIS+3VMU9CMRTF8d8zBL+aizoQFhx0kUk33RzdYMNFXUFnYeGrYYyaJiUxJHDLSxodbNKpfeffc9/pbaPyaCrr+3OA++z4rtT5Pg5GuMnCY9yWQEoBE1xhlUUP8YDrCBIB0vojLvGO0yz4hm4JJAKcYYoPHGOZAUdYoIMBXrc5iQAHeMlzviFygj7O8dkWEJU4XI8chALRhn9AVKHf70VRTHu4wFfbmKZLNKt50dLBnna0imcMd/2I0phWa3Y/D1e1Xa9BCZJG0VuQNpaWKMx72xS1Fl5/WN3BN+AgJhnZQlq4AAAAAElFTkSuQmCC');
+      background-position: calc(100% - .5rem), 100% 0;
+      background-size: 25px 25px;
+      background-repeat: no-repeat;
+    }
+
+    select.arrows:focus {
+      border-color: blue;
+      outline: 0;
+    }
+
+    .arrows {
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA3klEQVRIS+3VMU9CMRTF8d8zBL+aizoQFhx0kUk33RzdYMNFXUFnYeGrYYyaJiUxJHDLSxodbNKpfeffc9/pbaPyaCrr+3OA++z4rtT5Pg5GuMnCY9yWQEoBE1xhlUUP8YDrCBIB0vojLvGO0yz4hm4JJAKcYYoPHGOZAUdYoIMBXrc5iQAHeMlzviFygj7O8dkWEJU4XI8chALRhn9AVKHf70VRTHu4wFfbmKZLNKt50dLBnna0imcMd/2I0phWa3Y/D1e1Xa9BCZJG0VuQNpaWKMx72xS1Fl5/WN3BN+AgJhnZQlq4AAAAAElFTkSuQmCC');
+      background-position: calc(100% - .5rem), 100% 0;
+      background-size: 25px 25px;
+      background-repeat: no-repeat;
+    }
+
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .col-25 {
+      float: left;
+      width: 10%;
+      margin-top: 6px;
+    }
+
+    .col-75 {
+      float: left;
+      width: 90%;
+      margin-top: 6px;
+    }
+
+    .date {
+      width: 25%;
+      padding: 9px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      resize: vertical;
+    }
+
+    .button {
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    .button1 {
+      background-color: #006e04;
+      border-radius: 6px;
+    }
+
+    .button2 {
+      background-color: #ff0000;
+      border-radius: 6px;
+    }
+
+    .button3 {
+      background-color: blue;
+      border-radius: 6px;
+    }
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border-bottom: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px
+    }
+
+    tr:nth-child(odd) {
+      background-color: #f2f2f2;
+      border-collapse: collapse;
+
+    }
+
+    th {
+      background-color: #ffffff;
+    }
+
+    pagination {
+      display: inline-block;
+    }
+
+    .pagination a {
+      font-family: arial, sans-serif;
+      color: rgb(0, 119, 255);
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+      transition: background-color .3s;
+      border: 1px solid #ddd;
+    }
+
+    .pagination a.active {
+      background-color: rgb(0, 191, 255);
+      color: white;
+      border: 1px solid rgb(0, 191, 255);
+    }
+
+    .pagination a:hover:not(.active) {
+      background-color: #ddd;
+    }
+  </style>
+  <h1>BREAD (Browse, Read, Edit, Add, Delete)</h1>
+  <h2>Filters</h2>
+  <form action="" method="get">
+    <div class="row">
+      <div class="col-25">
+        <input type="checkbox" id="idCB" name="idCB" <%=query.idCB ? 'checked' : null %>>ID
+      </div>
+      <div class="col-75">
+        <input type="number" id="id" name="id" placeholder="ID" value="<%= query.idCB ? query.id : '' %>"><br>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-25">
+        <input type="checkbox" id="stringCB" name="stringCB" <%=query.stringCB ? 'checked' : null %>>String
+      </div>
+      <div class="col-75">
+        <input type="text" id="string" name="string" placeholder="String"
+          value="<%= query.stringCB ? query.string : '' %>"><br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <input type="checkbox" id="integerCB" name="integerCB" <%=query.integerCB ? 'checked' : null %>>Integer
+      </div>
+      <div class="col-75">
+        <input type="number" id="integer" name="integer" placeholder="Integer"
+          value="<%= query.integerCB ? query.integer : '' %>"><br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <input type="checkbox" id="floatCB" name="floatCB" <%=query.floatCB ? 'checked' : null %>>Float
+      </div>
+      <div class="col-75">
+        <input type="number" step="any" id="float" name="float" placeholder="Float"
+          value="<%= query.floatCB ? query.float : '' %>"><br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <input type="checkbox" id="dateCB" name="dateCB" <%=query.dateCB ? 'checked' : null %>>Date
+      </div>
+      <div class="col-75">
+        <input type="date" class="date" id="StartDate" name="StartDate" placeholder="Start Date"
+          value="<%= query.dateCB ? query.StartDate : '' %>"><br>
+        <p>to</p>
+        <input type="date" class="date" id="EndDate" name="EndDate" placeholder="End Date"
+          value="<%= query.dateCB ? query.EndDate : '' %>">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <input type="checkbox" id="booleanCB" name="booleanCB" <%=query.booleanCB ? 'checked' : null %>>Boolean
+      </div>
+      <div class="col-75">
+        <select class="arrows" name="boolean" id="boolean"
+          value="<%= query.booleanCB ? query.boolean : query.boolean = '' %>">
+          <option disabled <%=query.boolean=='' ? 'selected' : null %>>Choose the boolean..</option>
+          <option value="false" <%=query.boolean=='false' ? 'selected' : null %>>False</option>
+          <option value="true" <%=query.boolean=='true' ? 'selected' : null %>>True</option>
+        </select>
+      </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Search</button>
+    <button type="button" onclick="location.href='/';"  class="btn btn-warning">Reset</button>
+  </form>
+  <div id="pagination"></div>
+  <br>
+  <table>
+    <thead>
+      <tr>
+        <th>ID <i
+            class="<%= query.sortbyid == 'on' ? `fa-solid fa-sort-up` : query.sortbyid == 'off' ? `fa-solid fa-sort-down` : `fa-solid fa-sort` %>"
+            onclick="location.href='<%= currentUrl.includes(`sortbystring=on`) ? currentUrl.replace(`sortbystring=on`, `sortbyid=on`) : currentUrl.includes(`sortbystring=off`) ? currentUrl.replace(`sortbystring=off`, `sortbyid=on`) : currentUrl.includes(`sortbyinteger=on`) ? currentUrl.replace(`sortbyinteger=on`, `sortbyid=on`) : currentUrl.includes(`sortbyinteger=off`) ? currentUrl.replace(`sortbyinteger=off`, `sortbyid=on`) : currentUrl.includes(`sortbyfloat=on`) ? currentUrl.replace(`sortbyfloat=on`, `sortbyid=on`) : currentUrl.includes(`sortbyfloat=off`) ? currentUrl.replace(`sortbyfloat=off`, `sortbyid=on`) : currentUrl.includes(`sortbydate=on`) ? currentUrl.replace(`sortbydate=on`, `sortbyid=on`) : currentUrl.includes(`sortbydate=off`) ? currentUrl.replace(`sortbydate=off`, `sortbyid=on`) : currentUrl.includes(`sortbyboolean=on`) ? currentUrl.replace(`sortbyboolean=on`, `sortbyid=on`) : currentUrl.includes(`sortbyboolean=off`) ? currentUrl.replace(`sortbyboolean=off`, `sortbyid=on`) : currentUrl.includes(`&sortbyid=on`) ? currentUrl.replace(`&sortbyid=on`, `&sortbyid=off`) : currentUrl.includes(`/?sortbyid=on`) ? currentUrl.replace(`/?sortbyid=on`, `/?sortbyid=off`) : currentUrl.includes(`sortbyid=off`) ? currentUrl.replace(`sortbyid=off`, `sortbyid=on`) : currentUrl.includes(`/?`) ? currentUrl.concat(`&sortbyid=on`) : `/?sortbyid=on` %>'"></i>
+        </th>
+        
+        <th>String <i
+            class="<%= query.sortbystring == 'on' ? `fa-solid fa-sort-up` : query.sortbystring == 'off' ? `fa-solid fa-sort-down` : `fa-solid fa-sort` %>"
+            onclick="location.href='<%= currentUrl.includes(`sortbyid=on`) ? currentUrl.replace(`sortbyid=on`, `sortbystring=on`) : currentUrl.includes(`sortbyid=off`) ? currentUrl.replace(`sortbyid=off`, `sortbystring=on`) : currentUrl.includes(`sortbyinteger=on`) ? currentUrl.replace(`sortbyinteger=on`, `sortbystring=on`) : currentUrl.includes(`sortbyinteger=off`) ? currentUrl.replace(`sortbyinteger=off`, `sortbystring=on`) : currentUrl.includes(`sortbyfloat=on`) ? currentUrl.replace(`sortbyfloat=on`, `sortbystring=on`) : currentUrl.includes(`sortbyfloat=off`) ? currentUrl.replace(`sortbyfloat=off`, `sortbystring=on`) : currentUrl.includes(`sortbydate=on`) ? currentUrl.replace(`sortbydate=on`, `sortbystring=on`) : currentUrl.includes(`sortbydate=off`) ? currentUrl.replace(`sortbydate=off`, `sortbystring=on`) : currentUrl.includes(`sortbyboolean=on`) ? currentUrl.replace(`sortbyboolean=on`, `sortbystring=on`) : currentUrl.includes(`sortbyboolean=off`) ? currentUrl.replace(`sortbyboolean=off`, `sortbystring=on`) : currentUrl.includes(`&sortbystring=on`) ? currentUrl.replace(`&sortbystring=on`, `&sortbystring=off`) :currentUrl.includes(`/?sortbystring=on`) ? currentUrl.replace(`/?sortbystring=on`, `/?sortbystring=off`) : currentUrl.includes(`sortbystring=off`) ? currentUrl.replace(`sortbystring=off`, `sortbystring=on`) : currentUrl.includes(`/?`) ? currentUrl.concat(`&sortbystring=on`) : `/?sortbystring=on` %>'"></i></i>
+        </th>
+          
+        <th>Integer <i
+            class="<%= query.sortbyinteger == 'on' ? `fa-solid fa-sort-up` : query.sortbyinteger == 'off' ? `fa-solid fa-sort-down` : `fa-solid fa-sort` %>"
+            onclick="location.href='<%= currentUrl.includes(`sortbystring=on`) ? currentUrl.replace(`sortbystring=on`, `sortbyinteger=on`) : currentUrl.includes(`sortbystring=off`) ? currentUrl.replace(`sortbystring=off`, `sortbyinteger=on`) : currentUrl.includes(`sortbyid=on`) ? currentUrl.replace(`sortbyid=on`, `sortbyinteger=on`) : currentUrl.includes(`sortbyid=off`) ? currentUrl.replace(`sortbyid=off`, `sortbyinteger=on`) : currentUrl.includes(`sortbyfloat=on`) ? currentUrl.replace(`sortbyfloat=on`, `sortbyinteger=on`) : currentUrl.includes(`sortbyfloat=off`) ? currentUrl.replace(`sortbyfloat=off`, `sortbyinteger=on`) : currentUrl.includes(`sortbydate=on`) ? currentUrl.replace(`sortbydate=on`, `sortbyinteger=on`) : currentUrl.includes(`sortbydate=off`) ? currentUrl.replace(`sortbydate=off`, `sortbyinteger=on`) : currentUrl.includes(`sortbyboolean=on`) ? currentUrl.replace(`sortbyboolean=on`, `sortbyinteger=on`) : currentUrl.includes(`sortbyboolean=off`) ? currentUrl.replace(`sortbyboolean=off`, `sortbyinteger=on`) : currentUrl.includes(`&sortbyinteger=on`) ? currentUrl.replace(`&sortbyinteger=on`, `&sortbyinteger=off`) : currentUrl.includes(`/?sortbyinteger=on`) ? currentUrl.replace(`/?sortbyinteger=on`, `/?sortbyinteger=off`) : currentUrl.includes(`sortbyinteger=off`) ? currentUrl.replace(`sortbyinteger=off`, `sortbyinteger=on`) : currentUrl.includes(`/?`) ? currentUrl.concat(`&sortbyinteger=on`) : `/?sortbyinteger=on` %>'"></i>
+        </th>
+        <th>Float <i
+            class="<%= query.sortbyfloat == 'on' ? `fa-solid fa-sort-up` : query.sortbyfloat == 'off' ? `fa-solid fa-sort-down` : `fa-solid fa-sort` %>"
+            onclick="location.href='<%= currentUrl.includes(`sortbystring=on`) ? currentUrl.replace(`sortbystring=on`, `sortbyfloat=on`) : currentUrl.includes(`sortbystring=off`) ? currentUrl.replace(`sortbystring=off`, `sortbyfloat=on`) : currentUrl.includes(`sortbyinteger=on`) ? currentUrl.replace(`sortbyinteger=on`, `sortbyfloat=on`) : currentUrl.includes(`sortbyinteger=off`) ? currentUrl.replace(`sortbyinteger=off`, `sortbyfloat=on`) : currentUrl.includes(`sortbyid=on`) ? currentUrl.replace(`sortbyid=on`, `sortbyfloat=on`) : currentUrl.includes(`sortbyid=off`) ? currentUrl.replace(`sortbyid=off`, `sortbyfloat=on`) : currentUrl.includes(`sortbydate=on`) ? currentUrl.replace(`sortbydate=on`, `sortbyfloat=on`) : currentUrl.includes(`sortbydate=off`) ? currentUrl.replace(`sortbydate=off`, `sortbyfloat=on`) : currentUrl.includes(`sortbyboolean=on`) ? currentUrl.replace(`sortbyboolean=on`, `sortbyfloat=on`) : currentUrl.includes(`sortbyboolean=off`) ? currentUrl.replace(`sortbyboolean=off`, `sortbyfloat=on`) : currentUrl.includes(`&sortbyfloat=on`) ? currentUrl.replace(`&sortbyfloat=on`, `&sortbyfloat=off`) : currentUrl.includes(`/?sortbyfloat=on`) ? currentUrl.replace(`/?sortbyfloat=on`, `/?sortbyfloat=off`) : currentUrl.includes(`sortbyfloat=off`) ? currentUrl.replace(`sortbyfloat=off`, `sortbyfloat=on`) : currentUrl.includes(`/?`) ? currentUrl.concat(`&sortbyfloat=on`) : `/?sortbyfloat=on` %>'"></i>
+        </th>
+        <th>Date <i
+            class="<%= query.sortbydate == 'on' ? `fa-solid fa-sort-up` : query.sortbydate == 'off' ? `fa-solid fa-sort-down` : `fa-solid fa-sort` %>"
+            onclick="location.href='<%= currentUrl.includes(`sortbystring=on`) ? currentUrl.replace(`sortbystring=on`, `sortbydate=on`) : currentUrl.includes(`sortbystring=off`) ? currentUrl.replace(`sortbystring=off`, `sortbydate=on`) : currentUrl.includes(`sortbyinteger=on`) ? currentUrl.replace(`sortbyinteger=on`, `sortbydate=on`) : currentUrl.includes(`sortbyinteger=off`) ? currentUrl.replace(`sortbyinteger=off`, `sortbydate=on`) : currentUrl.includes(`sortbyfloat=on`) ? currentUrl.replace(`sortbyfloat=on`, `sortbydate=on`) : currentUrl.includes(`sortbyfloat=off`) ? currentUrl.replace(`sortbyfloat=off`, `sortbydate=on`) : currentUrl.includes(`sortbyid=on`) ? currentUrl.replace(`sortbyid=on`, `sortbydate=on`) : currentUrl.includes(`sortbyid=off`) ? currentUrl.replace(`sortbyid=off`, `sortbydate=on`) : currentUrl.includes(`sortbyboolean=on`) ? currentUrl.replace(`sortbyboolean=on`, `sortbydate=on`) : currentUrl.includes(`sortbyboolean=off`) ? currentUrl.replace(`sortbyboolean=off`, `sortbydate=on`) : currentUrl.includes(`&sortbydate=on`) ? currentUrl.replace(`&sortbydate=on`, `&sortbydate=off`) : currentUrl.includes(`/?sortbydate=on`) ? currentUrl.replace(`/?sortbydate=on`, `/?sortbydate=off`) : currentUrl.includes(`sortbydate=off`) ? currentUrl.replace(`sortbydate=off`, `sortbydate=on`) : currentUrl.includes(`/?`) ? currentUrl.concat(`&sortbydate=on`) : `/?sortbydate=on` %>'"></i>
+        </th>
+        
+        <th>Boolean <i
+            class="<%= query.sortbyboolean == 'on' ? `fa-solid fa-sort-up` : query.sortbyboolean == 'off' ? `fa-solid fa-sort-down` : `fa-solid fa-sort` %>"
+            onclick="location.href='<%= currentUrl.includes(`sortbystring=on`) ? currentUrl.replace(`sortbystring=on`, `sortbyboolean=on`) : currentUrl.includes(`sortbystring=off`) ? currentUrl.replace(`sortbystring=off`, `sortbyboolean=on`) : currentUrl.includes(`sortbyinteger=on`) ? currentUrl.replace(`sortbyinteger=on`, `sortbyboolean=on`) : currentUrl.includes(`sortbyinteger=off`) ? currentUrl.replace(`sortbyinteger=off`, `sortbyboolean=on`) : currentUrl.includes(`sortbyfloat=on`) ? currentUrl.replace(`sortbyfloat=on`, `sortbyboolean=on`) : currentUrl.includes(`sortbyfloat=off`) ? currentUrl.replace(`sortbyfloat=off`, `sortbyboolean=on`) : currentUrl.includes(`sortbyid=on`) ? currentUrl.replace(`sortbyid=on`, `sortbyboolean=on`) : currentUrl.includes(`sortbyid=off`) ? currentUrl.replace(`sortbyid=off`, `sortbyboolean=on`) : currentUrl.includes(`sortbydate=on`) ? currentUrl.replace(`sortbydate=on`, `sortbyboolean=on`) : currentUrl.includes(`sortbydate=off`) ? currentUrl.replace(`sortbydate=off`, `sortbyboolean=on`) : currentUrl.includes(`&sortbyboolean=on`) ? currentUrl.replace(`&sortbyboolean=on`, `&sortbyboolean=off`) : currentUrl.includes(`/?sortbyboolean=on`) ? currentUrl.replace(`/?sortbyboolean=on`, `/?sortbyboolean=off`) : currentUrl.includes(`sortbyboolean=off`) ? currentUrl.replace(`sortbyboolean=off`, `sortbyboolean=on`) : currentUrl.includes(`/?`) ? currentUrl.concat(`&sortbyboolean=on`) : `/?sortbyboolean=on` %>'"></i>
+        </th>
+        <th colspan="2">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% rows.forEach((item, index)=> { %>
+        <tr>
+          <td>
+            <%= item._id  %>
+          </td>
+          <td>
+            <%= item.string %>
+          </td>
+          <td>
+            <%= item.integer %>
+          </td>
+          <td>
+            <%= item.float %>
+          </td>
+          <td>
+            <%= item.date ? moment(item.date).format('DD MMMM YYYY') : 'kosong' %>
+          </td>
+          <td>
+            <%= item.boolean %>
+          </td>
+          <td>
+            <button class="button button1" onclick="location.href='/edit/<%= item._id %>';">Edit</button>
+            <button class="button button2" onclick="location.href='/delete/<%= item._id %>';">Delete</button>
+          </td>
+        </tr>
+        <% }) %>
+    </tbody>
+
+  </table>
+  <br>
+  <div class="pagination">
+    <a
+      href="<%= currentPage == 1 ? currentUrl : currentUrl.includes(`&page=${currentPage}`) ? currentUrl.replace(`&page=${currentPage}`, `&page=${(currentPage - 1)}`) : `/?page=${(currentPage - 1)}` %>">Previous</a>
+    <% for (let i=1; i <=page; i++) { %>
+      <a href="<%= currentUrl.includes(`&page=${currentPage}`) ? currentUrl.replace(`&page=${currentPage}`, `&page=${i}`) : currentUrl.includes(`/?page=${currentPage}`) ? currentUrl.replace(`/?page=${currentPage}`, `/?page=${i}`) : `/?page=${i}` %>"
+        class=<%=currentPage==i ? 'active' : null %>>
+        <%= i %>
+      </a>
+      <% } %>
+        <a
+          href="<%= currentPage == page ? currentUrl : currentUrl.includes(`&page=${currentPage}`) ? currentUrl.replace(`&page=${currentPage}`, `&page=${(currentPage + 1)}`) : `/?page=${(currentPage + 1)}` %>">Next</a>
+  </div>
+  <br>
+  <br>
+  <br>
+  <button class="button button3" onclick="location.href='/add';">Add</button><br>
+</body>
+
+</html>

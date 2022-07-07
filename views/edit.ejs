@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Kolom</title>
+</head>
+
+<body>
+    <style>
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+        }
+
+        input {
+            width: 95%;
+            padding: 9px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            resize: vertical;
+        }
+
+        select {
+            background-color: white;
+            border: 1px solid #ccc;
+            width: 97%;
+            border-radius: 4px;
+            display: inline-block;
+            font: inherit;
+            line-height: 25px;
+            padding: 7px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            resize: vertical;
+        }
+
+        select.arrows {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA3klEQVRIS+3VMU9CMRTF8d8zBL+aizoQFhx0kUk33RzdYMNFXUFnYeGrYYyaJiUxJHDLSxodbNKpfeffc9/pbaPyaCrr+3OA++z4rtT5Pg5GuMnCY9yWQEoBE1xhlUUP8YDrCBIB0vojLvGO0yz4hm4JJAKcYYoPHGOZAUdYoIMBXrc5iQAHeMlzviFygj7O8dkWEJU4XI8chALRhn9AVKHf70VRTHu4wFfbmKZLNKt50dLBnna0imcMd/2I0phWa3Y/D1e1Xa9BCZJG0VuQNpaWKMx72xS1Fl5/WN3BN+AgJhnZQlq4AAAAAElFTkSuQmCC');
+            background-position: calc(100% - .5rem), 100% 0;
+            background-size: 25px 25px;
+            background-repeat: no-repeat;
+        }
+
+        select.arrows:focus {
+            border-color: blue;
+            outline: 0;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .col-25 {
+            float: left;
+            width: 10%;
+            margin-top: 6px;
+        }
+
+        .col-75 {
+            float: left;
+            width: 90%;
+            margin-top: 6px;
+        }
+
+        .button {
+            border: none;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+        }
+
+        .button1 {
+            background-color: blue;
+            border-radius: 12px;
+        }
+        
+    </style>
+    <h1>Edit Data</h1>
+    <form action="" method="post">
+        <div class="row">
+            <div class="col-25">
+                <label for="id">ID</label>
+            </div>
+            <div class="col-75">
+                <input type="number" id="id" name="id" value= "<%= item._id %>" readonly><br>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="string">String</label>
+            </div>
+            <div class="col-75">
+                <input type="text" id="string" name="string" value="<%= item.string %>"><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="integer">Integer</label>
+            </div>
+            <div class="col-75">
+                <input type="number" id="integer" name="integer" value="<%= item.integer %>"><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="float">Float</label>
+            </div>
+            <div class="col-75">
+                <input type="number" step="any" id="float" name="float" value="<%= item.float %>"><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="date">Date</label>
+            </div>
+            <div class="col-75">
+                <input type="datetime" id="date" name="date" value="<%= moment(item.date).format('MM/DD/YYYY') %>"><br>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="boolean">Boolean</label>
+            </div>
+            <div class="col-75">
+                <select class="arrows" name="boolean" id="boolean">
+                    <option disabled hidden>Choose the boolean..</option>
+                    <option value="false" <%=item.boolean=='false' ? 'selected' : null %>>False</option>
+                    <option value="true" <%=item.boolean=='true' ? 'selected' : null %> >True</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <button class="button button1" type="submit">Update</button>
+    </form>
+
+</body>
+
+</html>
