@@ -48,7 +48,20 @@ module.exports = function (db) {
       const user = await collection.findOne({ _id: returnDocument.insertedId })
       res.status(200).json(user)
     } catch (err) {
-      res.status(500).json({ message: "error ambil data", err })
+      res.status(500).json({ message: "error ambil data", error: `${err}`})
+      console.log(err)
+    }
+  })
+  router.get('/:id', async function (req, res, next) {
+    try {
+      const collection = db.collection('users');
+      const user = await collection.findOne({
+        _id: mongodb.ObjectId(req.params.id)
+      });
+      res.status(200).json(user)
+    }
+    catch {
+      res.status(500).json({ message: "error ambil data" })
     }
   })
   router.put('/:id', async function (req, res, next) {
