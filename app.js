@@ -31,18 +31,19 @@ async function main() {
 
 main()
   .then((db) => {
-    // var indexRouter = require('./routes/index')(db);
+    var indexRouter = require('./routes/index');
     var usersRouter = require('./routes/users')(db);
     
     var app = express();
       
+    app.set('view engine', 'ejs');
     app.use(logger('dev'));
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
     app.use(express.static(path.join(__dirname, 'public')));
     
-    //  app.use('/', indexRouter);
+     app.use('/', indexRouter);
     app.use('/users', usersRouter);
     
     var debug = require('debug')('cobaapi:server');

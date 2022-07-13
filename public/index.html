@@ -15,22 +15,22 @@
 
 <body>
     <div class="container">
-        <h1>Daftar User</h1>
          <div class="card">
             <div class="card-header">
-                
+                <h1>Form Pencarian</h1>
+                </div>
         <form id="form-search">
             <div class="card-body">
                 <div class="row mb-3">
                     <label for="searchName" class="col-sm-2 col-form-label">Nama</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="searchName" name="searchName" required>
+                        <input type="text" class="form-control" id="searchName" name="searchName">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="searchHeight" class="col-sm-2 col-form-label">Tinggi</label>
                     <div class="col-sm-10">
-                        <input type="number" step="any" class="form-control" id="searchHeight" name="searchHeight" required>
+                        <input type="number" step="any" class="form-control" id="searchHeight" name="searchHeight">
                     </div>
                 </div>
                 </fieldset>
@@ -46,7 +46,8 @@
             </div>
 
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-primary">Cari</button>
+                <button type="button" onclick="readData()"  class="btn btn-warning">Reset</button>
             </div>
         </div>
     </div>
@@ -104,9 +105,7 @@
 </body>
 <script>
     const readData = (params) => {
-        fetch("http://localhost:3000/users", {
-            data: params
-        }).then((response) => {
+        fetch(`http://localhost:3000/users?${new URLSearchParams(params).toString()}`).then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -134,7 +133,7 @@
     const saveData = (id, nama, tinggi, sudahMenikah) => {
         if (id) {
             fetch(`http://localhost:3000/users/${id}`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -200,17 +199,12 @@
             }
             return response.json();
         }).then((response) => {
-            document.getElementById('nama').value = response._id
+            document.getElementById('id').value = response._id
             document.getElementById('nama').value = response.nama
             document.getElementById('tinggi').value = response.tinggi
             document.getElementById('sudahMenikah').checked = response.sudahMenikah
         })
     }
-
-    const updateData = () => {
-
-    }
-
 
     readData()
 

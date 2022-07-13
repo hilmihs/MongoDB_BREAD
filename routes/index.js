@@ -6,6 +6,9 @@ const moment = require('moment')
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017/";
 
+router.get('/login', (req, res) => {
+  res.render('login')
+})
 router.get('/', function (req, res, next) {
   // Pagination preparation
   const limit = 3
