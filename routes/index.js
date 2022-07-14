@@ -77,8 +77,6 @@ module.exports = function (pool) {
     let pageInput = parseInt(req.query.page)
     let data;
     let limitation = {}
-    console.log(req.session)
-
 
 
     if (!req.query.page) {

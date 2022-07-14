@@ -34,14 +34,17 @@
                         <input type="number" step="any" class="form-control" id="searchHeight" name="searchHeight">
                     </div>
                 </div>
-                </fieldset>
                 <div class="row mb-3">
                     <label for="married" class="col-sm-2 col-form-label">Sudah Menikah</label>
                     <div class="col-sm-10">
-                        </label>
-                        <input class="form-check-input" style="padding: 13px" type="checkbox" id="married"
+                     <select name="married" id="married" class="form-control">
+                      <option value="">--Pilih Status--</option>
+                      <option value="false">Belum</option>
+                      <option value="true">Sudah</option>
+                     </select>
+                        <!-- <input class="form-check-input" style="padding: 13px" type="checkbox" id="married"
                             name="married">
-                        <label class="form-check-label" for="married">
+                        <label class="form-check-label" for="married"> -->
                     </div>
                 </div>
             </div>
@@ -222,7 +225,7 @@
         event.preventDefault();
         const nama = document.getElementById('searchName').value
         const tinggi = document.getElementById('searchHeight').value
-        const sudahMenikah = document.getElementById('married').checked
+        const sudahMenikah = document.getElementById('married').value
         readData({nama, tinggi, sudahMenikah})
     })
 
