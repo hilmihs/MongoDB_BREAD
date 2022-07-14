@@ -12,23 +12,23 @@ const url = "mongodb://localhost:27017/";
 module.exports = function (pool) {
 
   router.get('/login', (req, res) => {
-    res.render('login', {info: req.flash('info')})
+    res.render('login', { info: req.flash('info') })
   })
 
   router.post('/login', async (req, res) => {
     try {
-      const { email, password} = req.body
+      const { email, password } = req.body
 
-      const {rows} = await pool.query('select * from users where email = $1', [email])
-   
+      const { rows } = await pool.query('select * from users where email = $1', [email])
+
       if (rows.length == 0) {
         throw 'email tidak terdaftar'
       }
-  
+
       const match = await bcrypt.compare(password, rows[0].password);
 
-      if(!match) {
-          throw 'password salah'
+      if (!match) {
+        throw 'password salah'
       }
 
       req.session.user = rows[0]
@@ -40,34 +40,76 @@ module.exports = function (pool) {
   })
 
   router.get('/register', (req, res) => {
-    res.render('register', {info: req.flash('info')})
+    res.render('register', { info: req.flash('info') })
   })
 
   router.post('/register', async (req, res) => {
     try {
-    const { email, name, password, repassword } = req.body
-    if (password != repassword) {
-      throw 'password tidak sama'
+      const { email, name, password, repassword } = req.body
+      if (password != repassword) {
+        throw 'password tidak sama'
+      }
+      const { rows } = await pool.query('select * from users where email = $1', [email])
+
+      if (rows.length > 0) {
+        throw 'email telah digunakan'
+      }
+      const hash = bcrypt.hashSync(password, saltRounds);
+      const createUser = await pool.query('insert into users values($1, $2, $3)', [email, name, hash])
+      req.flash('info', 'selamat akun anda telah dibuat silahkan login')
+      res.redirect('/login')
+    } catch (err) {
+      req.flash('info', err)
+      res.redirect('/register')
     }
-    const {rows} = await pool.query('select * from users where email = $1', [email])
- 
-    if (rows.length > 0) {
-      throw 'email telah digunakan'
-    }
-    const hash = bcrypt.hashSync(password, saltRounds);
-    const createUser = await pool.query('insert into users values($1, $2, $3)', [email, name, hash])
-    req.flash('info', 'selamat akun anda telah dibuat silahkan login')
-    res.redirect('/login')
-  } catch (err) {
-    req.flash('info', err)
-    res.redirect('/register')
-  }}
+  }
   )
   router.get('/logout', (req, res) => {
-    req.session.destroy(function(err){
+    req.session.destroy(function (err) {
       res.redirect('/login')
     })
   })
+
+  router.get('/test', isLoggedIn, (req, res, next) => {
+    const limit = req.query.display
+    const page = req.query.page || 1
+
+    const offset = limit == 'all' ? 0 : (page - 1) * limit
+    const searchParams = {}
+
+    if (req.query.nama) {
+      const regexName = new RegExp(`${req.query.nama}`, 'i')
+      searchParams['nama'] = regexName
+    }
+
+    if (req.query.sudahMenikah) {
+      searchParams['sudahMenikah'] = JSON.parse(req.query.sudahMenikah)
+    }
+
+    MongoClient.connect(url, function (err, db) {
+      if (err) throw err;
+      var dbo = db.db("mydb");
+
+      dbo.collection('data').find(searchParams, limitation).toArray((error, result) => {
+        if (error) throw error
+        dbo.collection('data').find(searchParams).count((error, count) => {
+          if (error) throw error
+
+        const totalPages = limit == 'all' ? 1 : Math.ceil(count / limit)
+        const limitation = limit == 'all' ? {} : { limit: parseInt(limit), skip: offset }
+        res.status(200).json({
+          data: result,
+          totalData: count,
+          totalPages,
+          display: limit,
+          page: parseInt(page),
+          user: req.session.user
+        })
+        })
+      })
+    })
+  })
+
   router.get('/', isLoggedIn, (req, res, next) => {
     // Pagination preparation
     const limit = 3
@@ -198,7 +240,7 @@ module.exports = function (pool) {
           if (error) throw error
 
           totalPage = Math.ceil(count / limit);
-          res.render('index', {
+          res.render('list', {
             rows: data,
             page: totalPage,
             currentPage: pageInput,
@@ -206,7 +248,7 @@ module.exports = function (pool) {
             link: req.url,
             currentUrl: currentLink,
             moment,
-            user: req.session.user
+            
           })
         })
       });

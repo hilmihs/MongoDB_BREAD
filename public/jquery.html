@@ -18,10 +18,10 @@
     <div class="container">
         <h1>Daftar User</h1>
         <form id="form-search">
-        <div class="card">
-            <div class="card-header">
-                <h1>Form Pencarian</h1>
-            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h1>Form Pencarian</h1>
+                </div>
                 <div class="card-body">
                     <div class="row mb-3">
                         <label for="searchName" class="col-sm-2 col-form-label">Nama</label>
@@ -37,22 +37,24 @@
                     </div>
                     </fieldset>
                     <div class="row mb-3">
-                        <label for="married" class="col-sm-2 col-form-label">Sudah Menikah</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-check-input" style="padding: 13px" type="checkbox" id="married"
-                                name="married">
-                            <label class="form-check-label" for="married">
+                        <label for="searchSudahMenikah" class="col-sm-2 col-form-label">Sudah Menikah</label>
+                        <div class="col-sm-10">
+                            <select name="searchSudahMenikah" id="searchSudahMenikah" class="form-control arrows">
+                                <option value="">--Pilih Status--</option>
+                                <option value="false">Belum</option>
+                                <option value="true">Sudah</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Cari</button>
-                    <button type="button" class="btn btn-warning reset-form-search">Reset</button>
+                    <button type="button" id="reset-form-search" class="btn btn-warning">Reset</button>
                 </div>
-        </div>
+            </div>
     </div>
     </form>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -64,50 +66,37 @@
             </tr>
         </thead>
         <tbody>
-
         </tbody>
     </table>
+
     <div class="row">
         <div class="col-6">
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+            <nav aria-label="Page navigation" id="pagination">
             </nav>
         </div>
         <div class="col-6">
             <div class="row">
-                <div class="col-6"></div>
-                <p class="text-right">showing 1 to 10 to 10 entries | display</p>
-                <select name="" id="display" class="form-control">
-                    <div class="col-4">
+                <div class="col-8">
+                    <p class="text-right" style="margin-top: 0.5rem;text-align: right;">showing 1 to 10 to 57
+                        entries | display</p>
+                </div>
+                <div class="col-4">
+                    <select name="" id="display" class="form-control">
                         <option value="3">3</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="all">all</option>
-                </select>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <h2>Form User</h2>
-        </div>
-        <form id="form-user">
-            <input type="hidden" id="id" name="id" value="">
+    <form id="form-user">
+        <input type="hidden" id="id" name="id" value="">
+        <div class="card">
+            <div class="card-header">
+                <h2>Form User</h2>
+            </div>
             <div class="card-body">
                 <div class="row mb-3">
                     <label for="nama" class="col-sm-2 col-form-label">Nama</label>
@@ -121,27 +110,37 @@
                         <input type="number" step="any" class="form-control" id="tinggi" name="tinggi" required>
                     </div>
                 </div>
+                <fieldset class="row mb-3">
+                    <legend class="col-form-label col-sm-2 pt-0">Sudah Menikah</legend>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sudahMenikah" id="sudahMenikah1"
+                                value="false" checked>
+                            <label class="form-check-label" for="sudahMenikah1">
+                                Belum
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sudahMenikah" id="sudahMenikah2"
+                                value="true">
+                            <label class="form-check-label" for="sudahMenikah2">
+                                Sudah
+                            </label>
+                        </div>
+                    </div>
                 </fieldset>
-                <div class="row mb-3">
-                    <select name="searchSudahMenikah" id="searchSudahMenikah" class="form-control"></select>
-                    <option value="">--Pilih Status--</option>
-                    <option value="false">Belum</option>
-                    <option value="true">Sudah</option>
-                </div>
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
-        </form>
+    </form>
     </div>
     </div>
 </body>
 <script>
     let params = {
-        totalData: 5,
-        totalPages: 1,
-        display: 2,
-        currentPage: "all"
+        display: 3,
+        page: 1
     }
 
     const readData = () => {
@@ -152,23 +151,24 @@
             data: params
         })
             .done(function (response) {
-                params = {...params, totalPages: response.totalPages }
+                params = { ...params, totalPages: response.totalPages }
                 let html = ''
                 response.data.forEach((item, index) => {
                     html += `
                 <tr>
-            <td>${index + 1}</td>
-            <td>${item.nama}</td>
-            <td>${item.tinggi}</td>
-            <td>${item.sudahMenikah == true ? 'Sudah' : 'Belum'}</td>
-            <td>
-            <button type="button" class="btn btn-success btn-sm btn-edit" iddata="${item._id}"><i class="fa-solid fa-pencil"></i></button>
-            <button type="button" class="btn btn-danger btn-sm btn-delete" iddata="${item._id}"><i class="fa-solid fa-trash-can"></i></button>
-            </td>
+                       <td>${index + 1}</td>
+                        <td>${item.nama}</td>
+                        <td>${item.tinggi}</td>
+                        <td>${item.sudahMenikah == true ? 'Sudah' : 'Belum'}</td>
+                         <td>
+                       <button type="button" class="btn btn-success btn-sm btn-edit" iddata="${item._id}"><i class="fa-solid fa-pencil"></i></button>
+                     <button type="button" class="btn btn-danger btn-sm btn-delete" iddata="${item._id}"><i class="fa-solid fa-trash-can"></i></button>
+                     </td>
                 </tr>
                 `
                 })
                 $('table tbody').html(html)
+                pagination()
             }).fail((function (err) {
                 alert('gagal pakai jquery')
             }))
@@ -181,34 +181,24 @@
                 url: `http://localhost:3000/users?${id}`,
                 dataType: "json",
                 data: { nama, tinggi, sudahMenikah }
+            }).done(function (response) {
+                readData()
+                $('#id').val('')
+                $('#form-user').trigger("reset");
             })
-                .done(function (response) {
-                    readData()
-                    $('#id').val('')
-                    $('#form-user').reset()
-                })
         } else {
             $.ajax({
                 method: "POST",
                 url: `http://localhost:3000/users`,
                 dataType: "json",
                 data: { nama, tinggi, sudahMenikah }
-            })
-            readData()
-            $('#form-user').reset()
-        }
-    }
-
-
-    const deleteData = (id) => {
-        $.ajax({
-            method: "DELETE",
-            url: `http://localhost:3000/users/${id}`,
-            dataType: "json"
-        })
-            .done(function (response) {
+            }).done(function (response) {
                 readData()
+                $('#form-user').trigger("reset");
+            }).fail(function (err) {
+                alert('gagal pakai jquery')
             })
+        }
     }
 
     const editData = (id) => {
@@ -221,8 +211,43 @@
                 $('#id').val(response._id)
                 $('#nama').val(response.nama)
                 $('#tinggi').val(response.tinggi)
-                $('#sudahMenikah').prop("checked", true);
+                $(`input[value="${response.sudahMenikah}"]`).prop("checked", true);
+            }).fail(function (err) {
+                alert('gagal pake jquery    ')
             })
+    }
+
+    const deleteData = (id) => {
+        $.ajax({
+            method: "DELETE",
+            url: `http://localhost:3000/users/${id}`,
+            dataType: "json"
+        }).done(function (response) {
+            readData()
+        }).fail(function (err) {
+            alert('gagal pakai jquery')
+        })
+    }
+
+    const pagination = () => {
+        let pagination = `<ul class="pagination">
+                               <li class="page-item${params.page == 1 ? ' disabled' : ''}">
+                                 <a class="page-link" href="#" datapage="${params.page - 1}" aria-label="Previous">
+                                  <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+`
+        for (let i = 1; i <= params.totalPages; i++) {
+            pagination += `
+        <li class="page-item${i == params.page ? ' active' : ''}"><a class="page-link" href="#" datapage="${i}">${i}</a></li>`
+        }
+        pagination += `<li class="page-item${params.page == params.totalPages ? ' disabled' : ''}">
+            <a class="page-link" datapage="${params.page + 1}" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>`
+        $('#pagination').html(pagination)
     }
 
     $(document).ready(function () {
@@ -248,60 +273,54 @@
 
         })
 
-        const pagination = () => {
-
-            let pagination = `
-            <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-`
-                   for (let i = 1; i <= params.totalPages; i++) {
-                    pagination += `
-                    <li class="page-item"><a class="page-link" href="#" datapage="${i}">${i}</a></li>`
-                   } 
-                pagination += `<li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>`
-                $('#pagination').html(pagination)
-        }
-
         $('form-search').submit, function (event) {
             event.preventDefault();
             const nama = $('#searchName').val()
             const tinggi = $('#searchHeight').val()
             const sudahMenikah = $('#searchSudahMenikah').val()
-            params = {...params, nama, tinggi, sudahMenikah }
+            params = { ...params, nama, tinggi, sudahMenikah }
             readData()
         }
-        $('#display').change(function(){
-            params = {...params, display: $('#display').val()}
+
+        $('#reset-form-search').click(function () {
+            params = {
+                display: 3,
+                page: 1
+            }
+            $('#form-search').trigger("reset");
+            readData()
+        })
+
+        $('#display').change(function () {
+            params = { ...params, display: $('#display').val(), page: 1 }
+            readData()
+        })
+
+        $('#pagination').on('click', '.page-link', function (event) {
+            event.preventDefault()
+            params = { ...params, page: $(this).attr('datapage') }
             readData()
         })
 
     })
-    $('#pagination').on('click', '.page-link', function (event) {
-        params = {...params, page: $(this).attr('datapage')}
-    })
-
-    $('#reset-form-search').click(function () {
-        params = {
-            display: 3,
-            page: 1
-        }
-        
-        $('#form-search').trigger("reset");
-        readData()
-    })
-
-
-
 
 </script>
-
+<style>
+    select.arrows {
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA3klEQVRIS+3VMU9CMRTF8d8zBL+aizoQFhx0kUk33RzdYMNFXUFnYeGrYYyaJiUxJHDLSxodbNKpfeffc9/pbaPyaCrr+3OA++z4rtT5Pg5GuMnCY9yWQEoBE1xhlUUP8YDrCBIB0vojLvGO0yz4hm4JJAKcYYoPHGOZAUdYoIMBXrc5iQAHeMlzviFygj7O8dkWEJU4XI8chALRhn9AVKHf70VRTHu4wFfbmKZLNKt50dLBnna0imcMd/2I0phWa3Y/D1e1Xa9BCZJG0VuQNpaWKMx72xS1Fl5/WN3BN+AgJhnZQlq4AAAAAElFTkSuQmCC');
+      background-position: calc(100% - .5rem), 100% 0;
+      background-size: 25px 25px;
+      background-repeat: no-repeat;
+    }
+    select.arrows:focus {
+      border-color: blue;
+      outline: 0;
+    }
+    .arrows {
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA3klEQVRIS+3VMU9CMRTF8d8zBL+aizoQFhx0kUk33RzdYMNFXUFnYeGrYYyaJiUxJHDLSxodbNKpfeffc9/pbaPyaCrr+3OA++z4rtT5Pg5GuMnCY9yWQEoBE1xhlUUP8YDrCBIB0vojLvGO0yz4hm4JJAKcYYoPHGOZAUdYoIMBXrc5iQAHeMlzviFygj7O8dkWEJU4XI8chALRhn9AVKHf70VRTHu4wFfbmKZLNKt50dLBnna0imcMd/2I0phWa3Y/D1e1Xa9BCZJG0VuQNpaWKMx72xS1Fl5/WN3BN+AgJhnZQlq4AAAAAElFTkSuQmCC');
+      background-position: calc(100% - .5rem), 100% 0;
+      background-size: 25px 25px;
+      background-repeat: no-repeat;
+    }
+</style>
 </html>
