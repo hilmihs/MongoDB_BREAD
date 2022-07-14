@@ -1,5 +1,4 @@
 var express = require('express');
-const db = require('../../POSTgreSQL_BREAD/postgresql_bread/db');
 var router = express.Router();
 const moment = require('moment');
 const { isLoggedIn } = require('../helpers/util');
@@ -9,8 +8,13 @@ const saltRounds = 10;
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017/";
 
-module.exports = function (pool) {
 
+
+module.exports = function (pool) {
+  MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    var dbo = db.db("mydb");
+    
   router.get('/login', (req, res) => {
     res.render('login', { info: req.flash('info') })
   })
@@ -18,7 +22,6 @@ module.exports = function (pool) {
   router.post('/login', async (req, res) => {
     try {
       const { email, password } = req.body
-
       const { rows } = await pool.query('select * from users where email = $1', [email])
 
       if (rows.length == 0) {
@@ -70,37 +73,37 @@ module.exports = function (pool) {
     })
   })
 
-  router.get('/test', isLoggedIn, (req, res, next) => {
-    const limit = req.query.display
+  router.get('/', isLoggedIn, (req, res, next) => {
+    const limit = req.query.display 
+    console.log(limit)
     const page = req.query.page || 1
 
     const offset = limit == 'all' ? 0 : (page - 1) * limit
     const searchParams = {}
-
-    if (req.query.nama) {
-      const regexName = new RegExp(`${req.query.nama}`, 'i')
-      searchParams['nama'] = regexName
+    if (req.query.searchName) {
+      const regexName = new RegExp(`${req.query.searchName}`, 'i')
+      searchParams['searchName'] = regexName
     }
 
-    if (req.query.sudahMenikah) {
-      searchParams['sudahMenikah'] = JSON.parse(req.query.sudahMenikah)
+    if (req.query.searchHeight) {
+      searchParams['searchHeight'] = parseInt(req.query.searchHeight)
     }
 
-    MongoClient.connect(url, function (err, db) {
-      if (err) throw err;
-      var dbo = db.db("mydb");
+    if (req.query.searchSudahMenikah) {
+      searchParams['searchSudahMenikah'] = JSON.parse(req.query.searchSudahMenikah)
+    }
 
+    dbo.collection('data').find(searchParams).count((error, count) => {
+      if (error) throw error
+      const totalPages = limit == 'all' ? 1 : Math.ceil(count / limit)
+      const limitation = limit == 'all' ? {} : { limit: parseInt(limit), skip: offset }
       dbo.collection('data').find(searchParams, limitation).toArray((error, result) => {
         if (error) throw error
-        dbo.collection('data').find(searchParams).count((error, count) => {
-          if (error) throw error
 
-        const totalPages = limit == 'all' ? 1 : Math.ceil(count / limit)
-        const limitation = limit == 'all' ? {} : { limit: parseInt(limit), skip: offset }
         res.status(200).json({
           data: result,
           totalData: count,
-          totalPages,
+          totalPages: totalPages,
           display: limit,
           page: parseInt(page),
           user: req.session.user
@@ -108,9 +111,9 @@ module.exports = function (pool) {
         })
       })
     })
-  })
+ 
 
-  router.get('/', isLoggedIn, (req, res, next) => {
+  router.get('/test', isLoggedIn, (req, res, next) => {
     // Pagination preparation
     const limit = 3
     let currentOffset;
@@ -119,7 +122,6 @@ module.exports = function (pool) {
     let pageInput = parseInt(req.query.page)
     let data;
     let limitation = {}
-
 
     if (!req.query.page) {
       currentOffset = 1;
@@ -228,21 +230,20 @@ module.exports = function (pool) {
     } else {
       limitation = { limit, skip: offset }
     }
-    MongoClient.connect(url, function (err, db) {
-      if (err) throw err;
-      var dbo = db.db("mydb");
+    dbo.collection('data').find(wheres).count((error, count) => {
+      if (error) throw error
+    const totalPages = limit == 'all' ? 1 : Math.ceil(count / limit)
+    const limitation = limit == 'all' ? {} : { limit: parseInt(limit), skip: offset }
 
       dbo.collection('data').find(wheres, limitation).sort(sortby).toArray((error, result) => {
         if (error) throw error
         data = result
 
-        dbo.collection('data').find(wheres).count((error, count) => {
-          if (error) throw error
 
           totalPage = Math.ceil(count / limit);
           res.render('list', {
             rows: data,
-            page: totalPage,
+            page: totalPages,
             currentPage: pageInput,
             query: req.query,
             link: req.url,
@@ -252,7 +253,6 @@ module.exports = function (pool) {
           })
         })
       });
-    });
   });
 
 
@@ -263,9 +263,7 @@ module.exports = function (pool) {
   })
 
   router.post('/add', (req, res) => {
-    MongoClient.connect(url, function (err, db) {
-      if (err) throw err;
-      var dbo = db.db("mydb");
+
       dbo.collection("counters").findOneAndUpdate({ _id: 'productid' },
         { $inc: { seq: 1 } },
         { new: true }).then((result) => {
@@ -288,13 +286,11 @@ module.exports = function (pool) {
         ).catch((err) => {
           console.log(err)
         })
-    })
+  
   })
 
   router.get('/edit/:id', (req, res) => {
-    MongoClient.connect(url, function (err, db) {
-      if (err) throw err;
-      var dbo = db.db("mydb");
+
       dbo.collection('data').find({ _id: parseInt(req.params.id) }).toArray((error, result) => {
 
         if (error) {
@@ -303,15 +299,13 @@ module.exports = function (pool) {
           res.render('edit', { item: result[0], moment })
         }
       });
-    });
+
   })
 
 
 
   router.post('/edit/:id', (req, res) => {
-    MongoClient.connect(url, function (err, db) {
-      if (err) throw err;
-      var dbo = db.db("mydb");
+
       var updatePromise = dbo.collection('data').updateOne({
         _id: parseInt(req.params.id)
       },
@@ -329,27 +323,23 @@ module.exports = function (pool) {
         console.log(error)
       })
       res.redirect('/')
-    })
+
   })
 
 
   router.get('/delete/:_id', (req, res) => {
 
-    MongoClient.connect(url, function (err, db) {
-
-      if (err) throw err;
-      var dbo = db.db("mydb");
       var myquery = { _id: parseInt(req.params._id) };
       dbo.collection("data").deleteOne(myquery, function (err, obj) {
         if (err) throw err;
         console.log("1 document deleted");
         db.close();
       });
-    });
+ 
     res.redirect('/')
   })
 
-
+})
   return router;
 }
 

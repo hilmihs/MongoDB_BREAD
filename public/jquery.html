@@ -149,9 +149,9 @@
             url: "http://localhost:3000/users",
             dataType: "json",
             data: params
-        })
-            .done(function (response) {
+        }).done(function (response) {
                 params = { ...params, totalPages: response.totalPages }
+                console.log(params)
                 let html = ''
                 response.data.forEach((item, index) => {
                     html += `
@@ -178,13 +178,15 @@
         if (id) {
             $.ajax({
                 method: "PUT",
-                url: `http://localhost:3000/users?${id}`,
+                url: `http://localhost:3000/users/${id}`,
                 dataType: "json",
                 data: { nama, tinggi, sudahMenikah }
             }).done(function (response) {
                 readData()
                 $('#id').val('')
                 $('#form-user').trigger("reset");
+            }).fail(function (err) {
+                alert('gagal pake jquery')
             })
         } else {
             $.ajax({
@@ -213,7 +215,7 @@
                 $('#tinggi').val(response.tinggi)
                 $(`input[value="${response.sudahMenikah}"]`).prop("checked", true);
             }).fail(function (err) {
-                alert('gagal pake jquery    ')
+                alert('gagal pake jquery')
             })
     }
 
@@ -253,12 +255,12 @@
     $(document).ready(function () {
         readData()
 
-        $('form-user').submit(function (event) {
+        $('#form-user').submit(function (event) {
             event.preventDefault();
-            const id = $('id').val()
-            const nama = $('nama').val()
-            const tinggi = $('tinggi').val()
-            const sudahMenikah = $('sudahMenikah').checked.val()
+            const id = $('#id').val()
+            const nama = $('#nama').val()
+            const tinggi = $('#tinggi').val()
+            const sudahMenikah = $('input[name="sudahMenikah"]:checked').val()
             saveData(id, nama, tinggi, sudahMenikah)
         })
 
@@ -273,7 +275,7 @@
 
         })
 
-        $('form-search').submit, function (event) {
+        $('#form-search').submit, function (event) {
             event.preventDefault();
             const nama = $('#searchName').val()
             const tinggi = $('#searchHeight').val()
@@ -287,7 +289,7 @@
                 display: 3,
                 page: 1
             }
-            $('#form-search').trigger("reset");
+            $("#form-search").trigger("reset");
             readData()
         })
 
