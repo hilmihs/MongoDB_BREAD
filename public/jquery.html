@@ -153,7 +153,6 @@
             data: params
         }).done(function (response) {
                 params = { ...params, totalPages: response.totalPages }
-                console.log(response)
                 let html = ''
                 response.data.forEach((item, index) => {
                     html += `
