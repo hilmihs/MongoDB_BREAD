@@ -17,6 +17,7 @@
 <body>
     <div class="container">
         <h1>Daftar User</h1>
+        <h4>Switch to <a href="/test">Vanilla JS</a> or <a href="/logout">Logout</a></h3>
         <form id="form-search">
             <div class="card">
                 <div class="card-header">
@@ -52,8 +53,9 @@
                     <button type="button" id="reset-form-search" class="btn btn-warning">Reset</button>
                 </div>
             </div>
+        </form>
     </div>
-    </form>
+    
 
     <table class="table table-striped">
         <thead>
@@ -151,12 +153,12 @@
             data: params
         }).done(function (response) {
                 params = { ...params, totalPages: response.totalPages }
-                console.log(params)
+                console.log(response)
                 let html = ''
                 response.data.forEach((item, index) => {
                     html += `
                 <tr>
-                       <td>${index + 1}</td>
+                       <td>${(index + 1)}</td>
                         <td>${item.nama}</td>
                         <td>${item.tinggi}</td>
                         <td>${item.sudahMenikah == true ? 'Sudah' : 'Belum'}</td>
@@ -275,14 +277,14 @@
 
         })
 
-        $('#form-search').submit, function (event) {
+        $('#form-search').submit(function (event) {
             event.preventDefault();
             const nama = $('#searchName').val()
             const tinggi = $('#searchHeight').val()
             const sudahMenikah = $('#searchSudahMenikah').val()
             params = { ...params, nama, tinggi, sudahMenikah }
             readData()
-        }
+        })
 
         $('#reset-form-search').click(function () {
             params = {

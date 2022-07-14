@@ -35,7 +35,7 @@ module.exports = function (pool) {
       }
 
       req.session.user = rows[0]
-      res.redirect('/')
+      res.redirect('/jquery.html')
     } catch (err) {
       req.flash('info', err)
       res.redirect('/login')
@@ -43,7 +43,7 @@ module.exports = function (pool) {
   })
 
   router.get('/register', (req, res) => {
-    res.render('register', { info: req.flash('info') })
+    res.render('register', { info: req.flash('info'), success: req.flash('success') })
   })
 
   router.post('/register', async (req, res) => {
@@ -59,7 +59,7 @@ module.exports = function (pool) {
       }
       const hash = bcrypt.hashSync(password, saltRounds);
       const createUser = await pool.query('insert into users values($1, $2, $3)', [email, name, hash])
-      req.flash('info', 'selamat akun anda telah dibuat silahkan login')
+      req.flash('success', 'selamat akun anda telah dibuat silahkan login')
       res.redirect('/login')
     } catch (err) {
       req.flash('info', err)
@@ -75,9 +75,9 @@ module.exports = function (pool) {
 
   router.get('/', isLoggedIn, (req, res, next) => {
     const limit = req.query.display 
-    console.log(limit)
+    console.log(req.session)
     const page = req.query.page || 1
-
+    
     const offset = limit == 'all' ? 0 : (page - 1) * limit
     const searchParams = {}
     if (req.query.searchName) {
@@ -241,7 +241,7 @@ module.exports = function (pool) {
 
 
           totalPage = Math.ceil(count / limit);
-          res.render('list', {
+          res.render('index', {
             rows: data,
             page: totalPages,
             currentPage: pageInput,
@@ -249,6 +249,7 @@ module.exports = function (pool) {
             link: req.url,
             currentUrl: currentLink,
             moment,
+            user: req.session.user
             
           })
         })
