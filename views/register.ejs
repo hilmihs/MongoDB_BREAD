@@ -113,8 +113,12 @@
       <div class="alert alert-danger" role="alert">
         <%= info %>
        </div>
-       <% } %>
-    <p class="mt-5 mb-3 text-muted">Login account <a href="/register">here</a></p>
+       <% } if (success.length > 0) { %>
+        <div class="alert alert-success" role="alert">
+          <%= success %>
+        </div>
+        <% } %>
+    <p class="mt-5 mb-3 text-muted">Login account <a href="/login">here</a></p>
   </form>
 </main>
 

@@ -17,7 +17,7 @@
     <div class="container">
          <div class="card">
           <h2>Welcome <%= user.name %></h2>
-          <h4>Switch to <a href="/jquery.html">JQuery</a> or <a href="/logout">Logout</a></h4>
+          <h4>Switch to <a href="/jquery">JQuery</a> or <a href="/">MongoDB BREAD</a> or <a href="/logout">Logout</a></h4>
             <div class="card-header">
                 <h1>Form Pencarian</h1>
                 </div>
@@ -49,7 +49,7 @@
 
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Cari</button>
-                <button type="button" id="reset-form-search" class="btn btn-warning">Reset</button>
+                <button type="submit" id="reset-form-search" class="btn btn-warning">Reset</button>
             </div>
         </div>
     </div>
@@ -227,6 +227,12 @@
         readData({nama, tinggi, sudahMenikah})
     })
 
+    document.getElementById('reset-form-search').onclick = function (event) {
+        event.preventDefault();
+        document.getElementById("form-search").reset()
+        document.getElementById("form-user").reset()
+        readData()
+    }
 
 </script>
 

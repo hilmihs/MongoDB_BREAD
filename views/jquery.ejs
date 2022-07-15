@@ -17,7 +17,7 @@
 <body>
     <div class="container">
         <h1>Daftar User</h1>
-        <h4>Switch to <a href="/test">Vanilla JS</a> or <a href="/logout">Logout</a></h3>
+        <h3>Switch to <a href="/test">Vanilla JS</a> or <a href="/">MongoDB Bread</a> or <a href="/logout">Logout</a></h3>
         <form id="form-search">
             <div class="card">
                 <div class="card-header">
@@ -155,6 +155,7 @@
             data: params
         }).done(function (response) {
                 params = { ...params, totalPages: response.totalPages }
+                console.log(params)
                 let html = ''
                 let offset = (parseInt(params.page) - 1) * params.display
                 response.data.forEach((item, index) => {
@@ -283,9 +284,11 @@
         $('#form-search').submit(function (event) {
             event.preventDefault();
             const nama = $('#searchName').val()
-            const tinggi = $('#searchHeight').val()
-            const sudahMenikah = $('#searchSudahMenikah').val()
+            let tinggi = $('#searchHeight').val() == "" ? "" : parseFloat($('#searchHeight').val())
+            const sudahMenikah = $('#searchSudahMenikah').val() == "" ? "" : JSON.parse($('#searchSudahMenikah').val())
             params = { ...params, nama, tinggi, sudahMenikah }
+            params = {...params, page: 1}
+            console.log(params)
             readData()
         })
 

@@ -14,6 +14,9 @@ module.exports = function (db) {
     if (req.query.nama) {
       searchParams['nama'] = new RegExp(`${req.query.nama}`, 'i');
     }
+    if (req.query.tinggi) {
+      searchParams['tinggi'] = parseFloat(req.query.tinggi)
+    }
     if (req.query.sudahMenikah) {
       searchParams['sudahMenikah'] = JSON.parse(req.query.sudahMenikah)
     }
